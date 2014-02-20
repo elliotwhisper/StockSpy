@@ -29,7 +29,7 @@ public class Main {
 		for (String s : list) {
 			win.add(s);
 		}
-		win.setBounds(800, 850, 250, 160);
+		win.setBounds(800, 850, 300, 160);
 		win.start();
 		JIntellitype.getInstance().registerHotKey(0, JIntellitype.MOD_CONTROL + JIntellitype.MOD_ALT, (int) 'Q');
 		JIntellitype.getInstance().registerHotKey(1, JIntellitype.MOD_CONTROL + JIntellitype.MOD_ALT, (int) 'P');

@@ -1,7 +1,6 @@
 package me.blyf;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -30,7 +29,9 @@ public class SWindow extends JWindow {
 	private MMListener listener;
 	private List<String> codes;
 	private List<SLabel> labelList = new ArrayList<SLabel>();
-	private int color = 185;
+	private SLabel detailLabel;
+	public static int color = 215;
+	private boolean showDetail = false;
 
 	public SWindow() {
 		AWTUtilities.setWindowOpaque(this, false);
@@ -40,6 +41,11 @@ public class SWindow extends JWindow {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		add(panel);
 		listener = new MMListener(this);
+		detailLabel = new SLabel(null);
+		detailLabel.addMouseListener(listener);
+		detailLabel.addMouseMotionListener(listener);
+		detailLabel.setVisible(false);
+		panel.add(detailLabel);
 		codes = new ArrayList<String>();
 	}
 
@@ -64,15 +70,15 @@ public class SWindow extends JWindow {
 				while (s != null && !"".equals(s.trim())) {
 					Entity entity = spliteStockInfo(s);
 					boolean isNew = true;
-					for (Component c : panel.getComponents()) {
-						if (c instanceof SLabel && ((SLabel) c).getCode().equals(entity.id)) {
+					for (SLabel c : labelList) {
+						if (c.getEntity().id.equals(entity.id)) {
 							isNew = false;
-							((SLabel) c).setText(entity.toString());
+							c.setText(entity.toOverview());
 						}
 					}
 					if (isNew) {
-						SLabel label = new SLabel(entity.id);
-						label.setText(entity.toString());
+						SLabel label = new SLabel(entity);
+						label.setText(entity.toOverview());
 						label.addMouseListener(listener);
 						label.addMouseMotionListener(listener);
 						label.setFocusable(true);
@@ -93,31 +99,25 @@ public class SWindow extends JWindow {
 		codes.add(code);
 	}
 
-	public void delete(SLabel label) {
-		panel.remove(label);
-		for (String s : codes) {
-			if (s.equals(label.getCode())) {
-				codes.remove(s);
-				break;
-			}
-		}
-	}
-	
 	public void setDarker() {
 		if (color > 0) {
 			color = color - 5 < 0 ? 0 : color -5;
+			Color c = new Color(color, color, color); 
 			for (SLabel label : labelList) {
-				label.setForeground(new Color(color, color, color));
+				label.setForeground(c);
 			}
+			detailLabel.setForeground(c);
 		}
 	}
 	
 	public void setLighter() {
 		if (color < 255) {
 			color = color + 5 > 255 ? 255 : color + 5;
+			Color c = new Color(color, color, color); 
 			for (SLabel label : labelList) {
-				label.setForeground(new Color(color, color, color));
+				label.setForeground(c);
 			}
+			detailLabel.setForeground(c);
 		}
 	}
 	
@@ -126,7 +126,19 @@ public class SWindow extends JWindow {
 	}
 	
 	public void toggle(SLabel label){
-		
+		if (showDetail){
+			detailLabel.setVisible(false);
+			for(SLabel s : labelList){
+				s.setVisible(true);
+			}
+		} else {
+			detailLabel.setText(label.getEntity().toDetail());
+			detailLabel.setVisible(true);
+			for(SLabel s : labelList){
+				s.setVisible(false);
+			}
+		}
+		showDetail = !showDetail;
 	}
 
 	private Entity spliteStockInfo(String info) {
@@ -140,8 +152,31 @@ public class SWindow extends JWindow {
 					/ Double.valueOf(n[3]) * 100;
 			entity.id = id.trim();
 			entity.name = n[0].substring(1).trim();
-			entity.start = n[1].trim();
+			entity.open = n[1].trim();
+			entity.close = n[2].trim();
 			entity.price = n[3].trim();
+			entity.highest = n[4].trim();
+			entity.lowest = n[5].trim();
+			entity.b1[0] = n[10].trim();
+			entity.b1[1] = n[11].trim();
+			entity.b2[0] = n[12].trim();
+			entity.b2[1] = n[13].trim();
+			entity.b3[0] = n[14].trim();
+			entity.b3[1] = n[15].trim();
+			entity.b4[0] = n[16].trim();
+			entity.b4[1] = n[17].trim();
+			entity.b5[0] = n[18].trim();
+			entity.b5[1] = n[19].trim();
+			entity.s1[0] = n[20].trim();
+			entity.s1[1] = n[21].trim();
+			entity.s2[0] = n[22].trim();
+			entity.s2[1] = n[23].trim();
+			entity.s3[0] = n[24].trim();
+			entity.s3[1] = n[25].trim();
+			entity.s4[0] = n[26].trim();
+			entity.s4[1] = n[27].trim();
+			entity.s5[0] = n[28].trim();
+			entity.s5[1] = n[29].trim();
 			entity.proportion = DF.format(proportion);
 		}
 		return entity;
@@ -164,35 +199,59 @@ class STimerTask extends TimerTask {
 class Entity {
 	public String id;
 	public String name;
-	public String start;
+	public String open;
+	public String close;
 	public String price;
+	public String highest;
+	public String lowest;
+	public String[] b1 = new String[]{"",""};
+	public String[] b2 = new String[]{"",""};
+	public String[] b3 = new String[]{"",""};
+	public String[] b4 = new String[]{"",""};
+	public String[] b5 = new String[]{"",""};
+	public String[] s1 = new String[]{"",""};
+	public String[] s2 = new String[]{"",""};
+	public String[] s3 = new String[]{"",""};
+	public String[] s4 = new String[]{"",""};
+	public String[] s5 = new String[]{"",""};
 	public String proportion;
 
-	@Override
-	public String toString() {
-		return String.format("%8s", id) + String.format("%6s", name) + String.format("%6s", start)
-				+ String.format("%6s", price)
-				+ String.format("%6s", proportion);
+	public String toOverview() {
+		return "<html>" + String.format("%10s", id) + String.format("%10s", name) + String.format("%10s", open)
+				+ String.format("%10s", price)
+				+ String.format("%10s", proportion) + "</html>";
+	}
+	
+	public String toDetail(){
+		return "<html>"
+				+ String.format("%10s", name) + String.format("%10s", highest) + String.format("%10s", lowest) + "<br />" 
+				+ String.format("%10s", open) + String.format("%10s", close) + String.format("%10s", price) + String.format("%10s", proportion) + "<br />" 
+				
+				+ String.format("%10d", Integer.valueOf(s5[0]) / 100) + String.format("%10s", s5[1]) + String.format("%10s", Integer.valueOf(b1[0]) / 100) + String.format("%10s", b1[1]) + "<br />" 
+				+ String.format("%10s", Integer.valueOf(s4[0]) / 100) + String.format("%10s", s4[1]) + String.format("%10s", Integer.valueOf(b2[0]) / 100) + String.format("%10s", b2[1]) + "<br />" 
+				+ String.format("%10s", Integer.valueOf(s3[0]) / 100) + String.format("%10s", s3[1]) + String.format("%10s", Integer.valueOf(b3[0]) / 100) + String.format("%10s", b3[1]) + "<br />" 
+				+ String.format("%10s", Integer.valueOf(s2[0]) / 100) + String.format("%10s", s3[1]) + String.format("%10s", Integer.valueOf(b4[0]) / 100) + String.format("%10s", b4[1]) + "<br />" 
+				+ String.format("%10s", Integer.valueOf(s1[0]) / 100) + String.format("%10s", s2[1]) + String.format("%10s", Integer.valueOf(b5[0]) / 100) + String.format("%10s", b5[1]) + "<br />" 
+				+ "</html>";
 	}
 }
 
 class SLabel extends JLabel {
 	private static final long serialVersionUID = -3274483684332899683L;
-	private String code;
+	private Entity entity;
 
-	public SLabel(String code) {
-		this.code = code;
-		setForeground(new Color(185,185,185));
+	public SLabel(Entity entity) {
+		this.setEntity(entity);
+		setForeground(new Color(SWindow.color,SWindow.color,SWindow.color));
 	}
 
-	public String getCode() {
-		return code;
+	public Entity getEntity() {
+		return entity;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setEntity(Entity entity) {
+		this.entity = entity;
 	}
-
 }
 
 class MMListener implements MouseMotionListener, MouseListener {
@@ -227,7 +286,7 @@ class MMListener implements MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON2 && e.getSource() instanceof SLabel){
+		if (e.getButton() == MouseEvent.BUTTON3 && e.getSource() instanceof SLabel){
 			SLabel label = (SLabel) e.getSource();
 			win.toggle(label);
 		}
