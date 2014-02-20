@@ -64,8 +64,7 @@ public class SWindow extends JWindow {
 				URL url = new URL("http://hq.sinajs.cn/list=" + sb.toString());
 				URLConnection connection = url.openConnection();
 				InputStream is = connection.getInputStream();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(is));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(is,"GBK"));
 				String s = reader.readLine();
 				while (s != null && !"".equals(s.trim())) {
 					Entity entity = spliteStockInfo(s);
