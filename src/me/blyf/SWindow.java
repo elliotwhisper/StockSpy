@@ -30,7 +30,7 @@ public class SWindow extends JWindow {
 	private List<String> codes;
 	private List<SLabel> labelList = new ArrayList<SLabel>();
 	private SLabel detailLabel;
-	public static int color = 215;
+	public static int color = 205;
 	private boolean showDetail = false;
 
 	public SWindow() {
@@ -68,11 +68,16 @@ public class SWindow extends JWindow {
 				String s = reader.readLine();
 				while (s != null && !"".equals(s.trim())) {
 					Entity entity = spliteStockInfo(s);
+					if (detailLabel.getEntity() !=null && entity.id.equals(detailLabel.getEntity().id)){
+						detailLabel.setEntity(entity);
+						detailLabel.setText(entity.toDetail());
+					}
 					boolean isNew = true;
-					for (SLabel c : labelList) {
-						if (c.getEntity().id.equals(entity.id)) {
+					for (SLabel lab : labelList) {
+						if (lab.getEntity().id.equals(entity.id)) {
 							isNew = false;
-							c.setText(entity.toOverview());
+							lab.setEntity(entity);
+							lab.setText(entity.toOverview());
 						}
 					}
 					if (isNew) {
@@ -124,14 +129,15 @@ public class SWindow extends JWindow {
 		return labelList;
 	}
 	
-	public void toggle(SLabel label){
+	public void toggle(Entity entity){
 		if (showDetail){
 			detailLabel.setVisible(false);
 			for(SLabel s : labelList){
 				s.setVisible(true);
 			}
 		} else {
-			detailLabel.setText(label.getEntity().toDetail());
+			detailLabel.setEntity(entity);
+			detailLabel.setText(entity.toDetail());
 			detailLabel.setVisible(true);
 			for(SLabel s : labelList){
 				s.setVisible(false);
@@ -234,6 +240,7 @@ class Entity {
 				+ "<tr>" + "<td>" + (Integer.valueOf(s1[0]) / 100) + "</td>"+ "<td>" + s2[1] + "</td>"+ "<td>" + (Integer.valueOf(b5[0]) / 100) + "</td>"+ "<td>" + b5[1] + "</td>" + "</tr>"
 				+ "</table>"
 				+ "</body></html>";
+//		System.out.println(detail);
 		return detail;
 	}
 }
@@ -290,7 +297,7 @@ class MMListener implements MouseMotionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3 && e.getSource() instanceof SLabel){
 			SLabel label = (SLabel) e.getSource();
-			win.toggle(label);
+			win.toggle(label.getEntity());
 		}
 	}
 

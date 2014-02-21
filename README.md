@@ -1,4 +1,4 @@
 StockSpy
 ========
 
-A little Swing desktop app, to display stock data from sina.
+A little Swing desktop app, to display stock data gotten from sina.
