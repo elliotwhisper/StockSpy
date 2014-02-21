@@ -222,16 +222,15 @@ class Entity {
 	public String proportion;
 
 	public String toOverview() {
-		String overview = "<html>" + String.format("%10s", id) + String.format("%10s", name) + String.format("%10s", open)
-				+ String.format("%10s", price)
-				+ String.format("%10s", proportion) + "</html>";
+		String overview = "<html>" + String.format("%10s", name) + String.format("%10s", price)
+				+ String.format("%10s", proportion) + "%" + "</html>";
 		return overview;
 	}
 	
 	public String toDetail(){
 		String detail = "<html><head>" + "<style type='text/css'>table{border-collapse:collapse;border-spacing:0;}td{text-align:right;display:block;padding:0 5px 0 0;border:0px;}</style></head><body>"
-				+ String.format("%10s", name) + String.format("%10s", highest) + String.format("%10s", lowest) + "<br />" 
-				+ String.format("%10s", open) + String.format("%10s", close) + String.format("%10s", price) + String.format("%10s", proportion) + "<br />" 
+				+ String.format("%10s", id) + String.format("%10s", name) + String.format("%10s", proportion) + "%" + "<br />" 
+				+ String.format("%10s", open) + String.format("%10s", close) + String.format("%10s", highest) + String.format("%10s", lowest) + String.format("%10s", price) + "<br />" 
 				+ "<table>"
 				+ "<tr>" + "<td>" + (Integer.valueOf(s5[0]) / 100) + "</td>"+ "<td>" + s5[1] + "</td>"+ "<td>" + (Integer.valueOf(b1[0]) / 100) + "</td>"+ "<td>" + b1[1] + "</td>" + "</tr>" 
 				+ "<tr>" + "<td>" + (Integer.valueOf(s4[0]) / 100) + "</td>"+ "<td>" + s4[1] + "</td>"+ "<td>" + (Integer.valueOf(b2[0]) / 100) + "</td>"+ "<td>" + b2[1] + "</td>" + "</tr>"
