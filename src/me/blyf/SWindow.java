@@ -236,8 +236,8 @@ class Entity {
 				+ "<tr>" + "<td>" + (Integer.valueOf(s5[0]) / 100) + "</td>"+ "<td>" + s5[1] + "</td>"+ "<td>" + (Integer.valueOf(b1[0]) / 100) + "</td>"+ "<td>" + b1[1] + "</td>" + "</tr>" 
 				+ "<tr>" + "<td>" + (Integer.valueOf(s4[0]) / 100) + "</td>"+ "<td>" + s4[1] + "</td>"+ "<td>" + (Integer.valueOf(b2[0]) / 100) + "</td>"+ "<td>" + b2[1] + "</td>" + "</tr>"
 				+ "<tr>" + "<td>" + (Integer.valueOf(s3[0]) / 100) + "</td>"+ "<td>" + s3[1] + "</td>"+ "<td>" + (Integer.valueOf(b3[0]) / 100) + "</td>"+ "<td>" + b3[1] + "</td>" + "</tr>"
-				+ "<tr>" + "<td>" + (Integer.valueOf(s2[0]) / 100) + "</td>"+ "<td>" + s3[1] + "</td>"+ "<td>" + (Integer.valueOf(b4[0]) / 100) + "</td>"+ "<td>" + b4[1] + "</td>" + "</tr>"
-				+ "<tr>" + "<td>" + (Integer.valueOf(s1[0]) / 100) + "</td>"+ "<td>" + s2[1] + "</td>"+ "<td>" + (Integer.valueOf(b5[0]) / 100) + "</td>"+ "<td>" + b5[1] + "</td>" + "</tr>"
+				+ "<tr>" + "<td>" + (Integer.valueOf(s2[0]) / 100) + "</td>"+ "<td>" + s2[1] + "</td>"+ "<td>" + (Integer.valueOf(b4[0]) / 100) + "</td>"+ "<td>" + b4[1] + "</td>" + "</tr>"
+				+ "<tr>" + "<td>" + (Integer.valueOf(s1[0]) / 100) + "</td>"+ "<td>" + s1[1] + "</td>"+ "<td>" + (Integer.valueOf(b5[0]) / 100) + "</td>"+ "<td>" + b5[1] + "</td>" + "</tr>"
 				+ "</table>"
 				+ "</body></html>";
 //		System.out.println(detail);
