@@ -216,22 +216,25 @@ class Entity {
 	public String proportion;
 
 	public String toOverview() {
-		return "<html>" + String.format("%10s", id) + String.format("%10s", name) + String.format("%10s", open)
+		String overview = "<html>" + String.format("%10s", id) + String.format("%10s", name) + String.format("%10s", open)
 				+ String.format("%10s", price)
 				+ String.format("%10s", proportion) + "</html>";
+		return overview;
 	}
 	
 	public String toDetail(){
-		return "<html>"
+		String detail = "<html><head>" + "<style type='text/css'>table{border-collapse:collapse;border-spacing:0;}td{text-align:right;display:block;padding:0 5px 0 0;border:0px;}</style></head><body>"
 				+ String.format("%10s", name) + String.format("%10s", highest) + String.format("%10s", lowest) + "<br />" 
 				+ String.format("%10s", open) + String.format("%10s", close) + String.format("%10s", price) + String.format("%10s", proportion) + "<br />" 
-				
-				+ String.format("%10d", Integer.valueOf(s5[0]) / 100) + String.format("%10s", s5[1]) + String.format("%10s", Integer.valueOf(b1[0]) / 100) + String.format("%10s", b1[1]) + "<br />" 
-				+ String.format("%10s", Integer.valueOf(s4[0]) / 100) + String.format("%10s", s4[1]) + String.format("%10s", Integer.valueOf(b2[0]) / 100) + String.format("%10s", b2[1]) + "<br />" 
-				+ String.format("%10s", Integer.valueOf(s3[0]) / 100) + String.format("%10s", s3[1]) + String.format("%10s", Integer.valueOf(b3[0]) / 100) + String.format("%10s", b3[1]) + "<br />" 
-				+ String.format("%10s", Integer.valueOf(s2[0]) / 100) + String.format("%10s", s3[1]) + String.format("%10s", Integer.valueOf(b4[0]) / 100) + String.format("%10s", b4[1]) + "<br />" 
-				+ String.format("%10s", Integer.valueOf(s1[0]) / 100) + String.format("%10s", s2[1]) + String.format("%10s", Integer.valueOf(b5[0]) / 100) + String.format("%10s", b5[1]) + "<br />" 
-				+ "</html>";
+				+ "<table>"
+				+ "<tr>" + "<td>" + (Integer.valueOf(s5[0]) / 100) + "</td>"+ "<td>" + s5[1] + "</td>"+ "<td>" + (Integer.valueOf(b1[0]) / 100) + "</td>"+ "<td>" + b1[1] + "</td>" + "</tr>" 
+				+ "<tr>" + "<td>" + (Integer.valueOf(s4[0]) / 100) + "</td>"+ "<td>" + s4[1] + "</td>"+ "<td>" + (Integer.valueOf(b2[0]) / 100) + "</td>"+ "<td>" + b2[1] + "</td>" + "</tr>"
+				+ "<tr>" + "<td>" + (Integer.valueOf(s3[0]) / 100) + "</td>"+ "<td>" + s3[1] + "</td>"+ "<td>" + (Integer.valueOf(b3[0]) / 100) + "</td>"+ "<td>" + b3[1] + "</td>" + "</tr>"
+				+ "<tr>" + "<td>" + (Integer.valueOf(s2[0]) / 100) + "</td>"+ "<td>" + s3[1] + "</td>"+ "<td>" + (Integer.valueOf(b4[0]) / 100) + "</td>"+ "<td>" + b4[1] + "</td>" + "</tr>"
+				+ "<tr>" + "<td>" + (Integer.valueOf(s1[0]) / 100) + "</td>"+ "<td>" + s2[1] + "</td>"+ "<td>" + (Integer.valueOf(b5[0]) / 100) + "</td>"+ "<td>" + b5[1] + "</td>" + "</tr>"
+				+ "</table>"
+				+ "</body></html>";
+		return detail;
 	}
 }
 
