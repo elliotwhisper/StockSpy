@@ -154,7 +154,7 @@ public class SWindow extends JWindow {
 			String id = infos[0].substring(11);
 			String[] n = infos[1].split(",");
 			double proportion = (Double.valueOf(n[3]) - Double.valueOf(n[2]))
-					/ Double.valueOf(n[3]) * 100;
+					/ Double.valueOf(n[2]) * 100;
 			entity.id = id.trim();
 			entity.name = n[0].substring(1).trim();
 			entity.open = n[1].trim();
