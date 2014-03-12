@@ -1,5 +1,6 @@
 package me.blyf;
 
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,8 +11,10 @@ import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
 
 public class Main {
-	static SWindow win = null;
-	static boolean show = false;
+	private static final int SCREEN_W = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private static final int SCREEN_H = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private static SWindow win = null;
+	private static boolean show = true;
 
 	public static void main(String[] args) throws Exception {
 		String confPath = null;
@@ -29,7 +32,8 @@ public class Main {
 		for (String s : list) {
 			win.add(s);
 		}
-		win.setBounds(800, 850, 300, 160);
+		
+		win.setBounds((SCREEN_W-300)/2, (SCREEN_H-160)/2, 300, 160);
 		win.start();
 		JIntellitype.getInstance().registerHotKey(0, JIntellitype.MOD_CONTROL + JIntellitype.MOD_ALT, (int) 'Q');
 		JIntellitype.getInstance().registerHotKey(1, JIntellitype.MOD_CONTROL + JIntellitype.MOD_ALT, (int) 'P');
@@ -50,6 +54,8 @@ public class Main {
 				}
 			}
 		});
+		
+		win.setVisible(show);
 	}
 
 	public static List<String> getStockCodes(File file) throws Exception {
