@@ -21,7 +21,7 @@ public class Main {
 		if (args.length != 0) {
 			confPath = args[0];
 		} else {
-			confPath = "s.dat";
+			confPath = "stock.list";
 		}
 		File file = new File(confPath);
 		if (!file.exists()) {
@@ -65,7 +65,7 @@ public class Main {
 		String s = br.readLine();
 		while (s != null) {
 			if (s.startsWith("sh") || s.startsWith("sz"))
-				list.add(s.trim());
+				list.add(s.trim().substring(0, 8));
 			s = br.readLine();
 		}
 		br.close();

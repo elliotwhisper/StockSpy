@@ -30,7 +30,7 @@ public class SWindow extends JWindow {
 	private List<String> codes;
 	private List<SLabel> labelList = new ArrayList<SLabel>();
 	private SLabel detailLabel;
-	public static int color = 205;
+	public static int color = 230;
 	private boolean showDetail = false;
 
 	public SWindow() {
