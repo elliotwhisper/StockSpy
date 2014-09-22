@@ -33,7 +33,7 @@ public class Main {
 			win.add(s);
 		}
 		
-		win.setBounds((SCREEN_W-300)/2, (SCREEN_H-160)/2, 300, 160);
+		win.setBounds((SCREEN_W-300)/2, (SCREEN_H)/2, 300, 600);
 		win.start();
 		JIntellitype.getInstance().registerHotKey(0, JIntellitype.MOD_CONTROL + JIntellitype.MOD_ALT, (int) 'Q');
 		JIntellitype.getInstance().registerHotKey(1, JIntellitype.MOD_CONTROL + JIntellitype.MOD_ALT, (int) 'P');
