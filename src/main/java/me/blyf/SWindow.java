@@ -1,9 +1,11 @@
 package me.blyf;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,7 +17,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
@@ -30,8 +34,10 @@ public class SWindow extends JWindow {
 	private List<String> codes;
 	private List<SLabel> labelList = new ArrayList<SLabel>();
 	private SLabel detailLabel;
+	private SLabel imageLabel;
 	public static int color = 230;
 	private boolean showDetail = false;
+	private boolean showImage = false;
 
 	public SWindow() {
 		AWTUtilities.setWindowOpaque(this, false);
@@ -46,6 +52,13 @@ public class SWindow extends JWindow {
 		detailLabel.addMouseMotionListener(listener);
 		detailLabel.setVisible(false);
 		panel.add(detailLabel);
+		
+		imageLabel = new SLabel(null);
+		imageLabel.addMouseListener(listener);
+		imageLabel.addMouseMotionListener(listener);
+		imageLabel.setVisible(false);
+		panel.add(imageLabel);
+		
 		codes = new ArrayList<String>();
 	}
 
@@ -92,11 +105,18 @@ public class SWindow extends JWindow {
 					this.validate();
 					s = reader.readLine();
 				}
+				if (showImage && imageLabel.getEntity()!=null){
+				    String id = imageLabel.getEntity().id;
+				    URL imageUrl = new URL("http://image.sinajs.cn/newchart/min/n/" + id + ".gif");
+				    BufferedImage srcImage = ImageIO.read(imageUrl).getSubimage(15, 5, 515, 190);
+				    Image image = srcImage.getScaledInstance(395, 146, Image.SCALE_SMOOTH);
+				    ImageIcon icon = new ImageIcon(image);
+				    imageLabel.setIcon(icon);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void add(String code) {
@@ -129,21 +149,44 @@ public class SWindow extends JWindow {
 		return labelList;
 	}
 	
-	public void toggle(Entity entity){
-		if (showDetail){
-			detailLabel.setVisible(false);
-			for(SLabel s : labelList){
-				s.setVisible(true);
-			}
-		} else {
-			detailLabel.setEntity(entity);
-			detailLabel.setText(entity.toDetail());
-			detailLabel.setVisible(true);
-			for(SLabel s : labelList){
-				s.setVisible(false);
-			}
-		}
-		showDetail = !showDetail;
+	public void toggle(Entity entity, int type){
+	    if (type == 0 ){
+	        if (showDetail){
+	            detailLabel.setVisible(false);
+	            for(SLabel s : labelList){
+	                s.setVisible(true);
+	            }
+	        } else {
+	            detailLabel.setEntity(entity);
+	            detailLabel.setText(entity.toDetail());
+	            detailLabel.setVisible(true);
+	            for(SLabel s : labelList){
+	                s.setVisible(false);
+	            }
+	        }
+	        showDetail = !showDetail;
+	        imageLabel.setVisible(false);
+	        imageLabel.setEntity(null);
+	    } else if (type == 1){
+	        if (showImage){
+	            imageLabel.setVisible(false);
+	            imageLabel.setEntity(null);
+	            detailLabel.setVisible(false);
+                for(SLabel s : labelList){
+                    s.setVisible(true);
+                }
+	        } else {
+	            imageLabel.setEntity(entity);
+	            imageLabel.setIcon(null);
+	            update();
+	            imageLabel.setVisible(true);
+	            detailLabel.setVisible(false);
+                for(SLabel s : labelList){
+                    s.setVisible(false);
+                }
+	        }
+	        showImage = !showImage;
+	    }
 	}
 
 	private Entity spliteStockInfo(String info) {
@@ -294,9 +337,13 @@ class MMListener implements MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3 && e.getSource() instanceof SLabel){
-			SLabel label = (SLabel) e.getSource();
-			win.toggle(label.getEntity());
+		if (e.getSource() instanceof SLabel){
+		    SLabel label = (SLabel) e.getSource();
+		    if (e.getButton() == MouseEvent.BUTTON3){
+	            win.toggle(label.getEntity(), 0);
+		    } else if (e.getButton() == MouseEvent.BUTTON2){
+		        win.toggle(label.getEntity(), 1);
+		    }
 		}
 	}
 
